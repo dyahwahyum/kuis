@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif: Penerapan AI dalam Pembelajaran</title>
+    <style>
+        /* CSS untuk Desain Menarik, Warna Lembut, dan Font Besar */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6; /* Warna latar belakang lembut */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling untuk Header Baru */
+        .header-pelatihan {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Awalnya tengah, akan disesuaikan untuk logo */
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00796b;
+        }
+
+        .header-title {
+            text-align: center;
+            flex-grow: 1; /* Agar judul mengambil ruang yang tersisa */
+        }
+        
+        .school-logo {
+            width: 80px; /* Ukuran logo */
+            height: 80px;
+            background-color: #b2dfdb; /* Warna placeholder logo */
+            border-radius: 50%; /* Bentuk lingkaran */
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #004d40;
+            font-weight: bold;
+            font-size: 0.8em;
+            border: 2px dashed #00796b;
+        }
+
+        h1 {
+            color: #00796b; /* Warna judul yang teduh */
+            margin-bottom: 5px;
+            font-size: 2.5em; /* Font besar */
+        }
+        
+        .sub-title {
+            color: #004d40;
+            font-size: 1.5em;
+            font-weight: 500;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: #00897b;
+            font-size: 1.8em; /* Font besar */
+            border-bottom: 2px solid #e0f2f1;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        .question-card {
+            background-color: #e0f2f1; /* Latar belakang soal yang lembut */
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #004d40;
+        }
+
+        .question-text {
+            font-size: 1.3em; /* Font besar */
+            font-weight: bold;
+            color: #004d40;
+            margin-bottom: 15px;
+        }
+
+        .option-label {
+            display: block;
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            border: 1px solid #b2dfdb;
+            font-size: 1.2em; /* Font besar */
+        }
+
+        .option-label:hover {
+            background-color: #b2dfdb;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .rationale {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* Disembunyikan awalnya */
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
+        .correct {
+            background-color: #c8e6c9; /* Hijau muda untuk jawaban benar */
+            border: 2px solid #388e3c;
+            color: #1b5e20;
+        }
+
+        .incorrect {
+            background-color: #ffcdd2; /* Merah muda untuk jawaban salah */
+            border: 2px solid #d32f2f;
+            color: #c62828;
+        }
+
+        #submitBtn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            color: white;
+            background-color: #00796b;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 30px;
+        }
+
+        #submitBtn:hover {
+            background-color: #004d40;
+        }
+
+        #results {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #e0f7fa; /* Warna latar hasil */
+            border-radius: 12px;
+            border: 2px dashed #00bcd4;
+            display: none;
+        }
+
+        #results-score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #00796b;
+        }
+
+        #results-message {
+            font-size: 1.8em;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="header-pelatihan">
+        <div class="school-logo">
+            <span id="logo-text">LOGO SEKOLAH</span>
+            </div>
+        <div class="header-title">
+            <p class="sub-title">Pelatihan Guru SMA Negeri 1 Karangrayung 2025</p>
+            <h1>Kuis Peningkatan Kompetensi Guru</h1>
+        </div>
+    </div>
+    <h2>Penerapan AI dalam Pembelajaran</h2>
+    <p style="text-align: center; font-size: 1.1em;">Pilih satu jawaban yang paling tepat untuk setiap soal. Tekan tombol "Kirim Jawaban" di akhir kuis.</p>
+
+    <div id="quiz-container">
+        </div>
+
+    <button id="submitBtn" onclick="submitQuiz()">Kirim Jawaban & Lihat Hasil</button>
+
+    <div id="results">
+        <h2>Hasil Penilaian Anda</h2>
+        <div id="results-score"></div>
+        <div id="results-message"></div>
+        <p style="margin-top: 15px;">**Skor penilaian:** Baik (8-10), Cukup (6-7), Perlu Belajar Lagi (0-5)</p>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "1. Komponen utama yang memungkinkan AI untuk 'belajar' dari data dan meningkatkan kinerjanya seiring waktu, yang menjadi fondasi bagi banyak aplikasi AI di pendidikan, adalah...",
+            options: [
+                { text: "Natural Language Processing (NLP)" },
+                { text: "Machine Learning (Pembelajaran Mesin)", isCorrect: true },
+                { text: "Computer Vision (Penglihatan Komputer)" },
+                { text: "Robotics (Robotika)" }
+            ],
+            rationale: "Machine Learning adalah sub-bidang dari AI yang berfokus pada pengembangan sistem yang secara otomatis dapat belajar dan meningkatkan kinerjanya berdasarkan pengalaman (data) tanpa diprogram secara eksplisit."
+        },
+        {
+            question: "2. Dalam konteks pembelajaran berdiferensiasi, AI paling efektif digunakan oleh guru untuk mendukung peran mereka dalam hal...",
+            options: [
+                { text: "Menggantikan peran guru sebagai pemberi ceramah di kelas." },
+                { text: "Menganalisis kebutuhan individual siswa secara cepat dan merekomendasikan materi/jalur belajar yang dipersonalisasi.", isCorrect: true },
+                { text: "Mengawasi perilaku siswa secara ketat menggunakan kamera pengawas." },
+                { text: "Membuat jadwal pelajaran yang sama untuk semua kelas tanpa pengecualian." }
+            ],
+            rationale: "AI dapat memproses data performa, kecepatan, dan preferensi siswa untuk personalisasi, memungkinkan guru memberikan intervensi dan materi yang paling sesuai bagi setiap individu."
+        },
+        {
+            question: "3. Sebutan untuk jenis AI yang hanya bisa melakukan satu jenis tugas spesifik, seperti sistem pemindai wajah untuk keamanan sekolah atau asisten suara sederhana di ruang kelas, adalah...",
+            options: [
+                { text: "General AI (Strong AI)" },
+                { text: "Super AI" },
+                { text: "Narrow AI (Weak AI)", isCorrect: true },
+                { text: "Emotional AI" }
+            ],
+            rationale: "Narrow AI (atau Weak AI) dirancang dan dilatih untuk satu tujuan tertentu (misalnya, mengenali gambar atau menjawab pertanyaan faktual) dan tidak memiliki kesadaran umum seperti manusia."
+        },
+        {
+            question: "4. Isu etika utama yang muncul ketika sistem penilaian otomatis (auto-grading) berbasis AI menghasilkan bias yang merugikan sekelompok siswa berdasarkan latar belakang, ras, atau gender mereka adalah masalah...",
+            options: [
+                { text: "Ketergantungan (Dependency)" },
+                { text: "Transparansi (Transparency)" },
+                { text: "Keadilan dan Kesetaraan (Fairness and Equity)", isCorrect: true },
+                { text: "Keamanan Data (Data Security)" }
+            ],
+            rationale: "Bias terjadi karena data pelatihan AI mungkin tidak representatif atau mengandung ketidakadilan historis, sehingga menyebabkan sistem AI membuat keputusan yang tidak adil (unethical)."
+        },
+        {
+            question: "5. Aplikasi AI yang memungkinkan guru membuat video penjelasan singkat (explainer videos) dari teks atau poin-poin presentasi secara otomatis, atau membuat soal kuis dari bab buku, adalah contoh dari kategori pemanfaatan AI...",
+            options: [
+                { text: "Analisis Data Prediktif" },
+                { text: "Tutor Virtual" },
+                { text: "Content Generation (Pembuatan Konten)", isCorrect: true },
+                { text: "Manajemen Administrasi" }
+            ],
+            rationale: "AI generatif memiliki kemampuan untuk menciptakan konten baru (teks, gambar, audio, video) dari instruksi sederhana, sangat membantu guru dalam mempersiapkan bahan ajar."
+        },
+        {
+            question: "6. Manfaat utama dari penggunaan AI Chatbot sebagai 'tutor' 24/7 bagi siswa SMA adalah...",
+            options: [
+                { text: "Menggantikan kebutuhan akan bimbingan dari guru mata pelajaran." },
+                { text: "Menyediakan umpan balik dan bantuan segera (instan) di luar jam pelajaran sekolah.", isCorrect: true },
+                { text: "Memastikan semua siswa mendapatkan nilai 100 pada ujian." },
+                { text: "Hanya dapat diakses oleh siswa dengan fasilitas internet berkecepatan tinggi." }
+            ],
+            rationale: "Aksesibilitas dan ketersediaan instan adalah keunggulan utama AI Chatbot, memungkinkan siswa bertanya kapan saja tanpa harus menunggu guru."
+        },
+        {
+            question: "7. Tindakan pedagogis terbaik bagi guru untuk meminimalkan ketergantungan siswa pada AI generatif (seperti ChatGPT) untuk tugas esai atau proyek adalah...",
+            options: [
+                { text: "Melarang total penggunaan perangkat digital di kelas." },
+                { text: "Merancang tugas yang memerlukan sintesis, analisis kritis, konteks lokal yang unik, atau refleksi pribadi.", isCorrect: true },
+                { text: "Hanya memberikan tugas berupa ujian lisan secara mendadak." },
+                { text: "Memberikan tugas yang sangat sederhana yang bisa dicari jawabannya di internet." }
+            ],
+            rationale: "Tugas yang unik dan memerlukan kemampuan berpikir tingkat tinggi sulit ditiru oleh model AI generatif umum, mendorong siswa untuk berpikir orisinal."
+        },
+        {
+            question: "8. Dalam konteks pemanfaatan AI, konsep yang merujuk pada kolaborasi di mana kecerdasan buatan berfungsi sebagai alat bantu untuk meningkatkan kemampuan dan efektivitas guru, bukan menggantikannya, disebut...",
+            options: [
+                { text: "Artificial General Intelligence (AGI)" },
+                { text: "Kecerdasan Super (Super Intelligence)" },
+                { text: "Kecerdasan Augmentasi (Augmented Intelligence)", isCorrect: true },
+                { text: "Kecerdasan Otonom (Autonomous Intelligence)" }
+            ],
+            rationale: "Augmented Intelligence menekankan bahwa AI adalah alat untuk memperkuat kecerdasan manusia (guru), menyoroti kemitraan antara manusia dan mesin."
+        },
+        {
+            question: "9. Contoh paling tepat dari penggunaan AI untuk meningkatkan 'Administrasi dan Efisiensi Guru' di sekolah adalah...",
+            options: [
+                { text: "Sistem yang dapat menuliskan RPP (Rancangan Pelaksanaan Pembelajaran) dan mempublikasikannya tanpa revisi guru." },
+                { text: "Sistem penjadwalan kelas otomatis, pelacakan kehadiran siswa, dan analisis tren nilai siswa secara *real-time*.", isCorrect: true },
+                { text: "Platform yang hanya menampilkan video hiburan untuk mengisi waktu luang siswa." },
+                { text: "Aplikasi yang menganalisis kepribadian guru untuk evaluasi kinerja." }
+            ],
+            rationale: "AI unggul dalam mengotomatisasi tugas-tugas rutin yang memakan waktu, seperti administrasi dan pelaporan, membebaskan waktu guru untuk mengajar."
+        },
+        {
+            question: "10. Hal penting yang perlu diperhatikan oleh guru dalam isu keamanan data saat menggunakan platform AI edukasi adalah...",
+            options: [
+                { text: "Memastikan platform AI terhubung dengan semua akun media sosial pribadi siswa." },
+                { text: "Memahami dan memastikan bahwa data pribadi siswa (seperti nilai, nama, riwayat belajar) dienkripsi dan tidak dibagikan kepada pihak ketiga yang tidak berwenang.", isCorrect: true },
+                { text: "Mengizinkan platform AI mengumpulkan data sebanyak mungkin tanpa batas." },
+                { text: "Menggunakan kata sandi yang sama di semua platform AI dan sekolah." }
+            ],
+            rationale: "Keamanan data dan privasi adalah isu etika yang krusial. Guru harus memastikan platform AI yang digunakan melindungi informasi sensitif siswa sesuai dengan kebijakan privasi."
+        }
+    ];
+
+    const quizContainer = document.getElementById('quiz-container');
+    const resultsDiv = document.getElementById('results');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Fungsi untuk merender soal kuis
+    function renderQuiz() {
+        quizData.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            const qText = document.createElement('div');
+            qText.className = 'question-text';
+            qText.textContent = q.question;
+            card.appendChild(qText);
+
+            q.options.forEach((option, optionIndex) => {
+                const label = document.createElement('label');
+                label.className = 'option-label';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `question${index}`;
+                input.value = optionIndex;
+                input.setAttribute('data-index', optionIndex); // Menyimpan index opsi
+                
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(option.text));
+                card.appendChild(label);
+            });
+
+            const rationale = document.createElement('div');
+            rationale.className = 'rationale';
+            rationale.id = `rationale-${index}`;
+            // Rationale akan diisi saat submitQuiz
+            card.appendChild(rationale);
+
+            quizContainer.appendChild(card);
+        });
+    }
+
+    // Fungsi untuk menghitung dan menampilkan hasil
+    function submitQuiz() {
+        let score = 0;
+        let allAnswered = true;
+
+        quizData.forEach((q, index) => {
+            const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+            const rationaleDiv = document.getElementById(`rationale-${index}`);
+            const questionOptions = document.querySelectorAll(`input[name="question${index}"]`);
+            
+            // Logika cek apakah semua dijawab
+            if (!selectedOption) {
+                allAnswered = false;
+            }
+
+            rationaleDiv.style.display = 'block'; // Tampilkan penjelasan
+            
+            // Reset state visual
+            questionOptions.forEach(input => {
+                input.closest('label').classList.remove('correct', 'incorrect');
+            });
+            
+            questionOptions.forEach(input => {
+                const optionIndex = parseInt(input.value);
+                const label = input.closest('label');
+                
+                // Cek apakah opsi ini adalah jawaban yang benar
+                const isCorrectOption = q.options[optionIndex].isCorrect;
+
+                if (isCorrectOption) {
+                    label.classList.add('correct');
+                    rationaleDiv.innerHTML = `<span style="font-weight: bold; color: #1b5e20;">Kunci Jawaban: ${q.options[optionIndex].text}</span><br>Penjelasan: ${q.rationale}`;
+                } else {
+                    // Jika ini adalah opsi yang salah dan dipilih oleh pengguna
+                    if (input.checked) {
+                        label.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Hitung skor hanya jika sudah dijawab
+            if (selectedOption) {
+                const selectedIndex = parseInt(selectedOption.value);
+                if (q.options[selectedIndex].isCorrect) {
+                    score++;
+                }
+            }
+        });
+
+        // Tampilkan peringatan jika belum semua soal dijawab
+        if (!allAnswered) {
+            alert("Mohon jawab semua 10 soal sebelum melihat hasilnya.");
+            // Sembunyikan hasil dan penjelasan jika belum selesai
+            resultsDiv.style.display = 'none';
+            // Scroll ke atas agar guru melihat soal yang belum dijawab
+            window.scrollTo(0, 0);
+            return;
+        }
+
+        // Tampilkan skor dan pesan
+        document.getElementById('results-score').textContent = `${score} / 10`;
+
+        let message = '';
+        if (score >= 8) {
+            message = "Baik! Pemahaman Anda tentang AI dalam pembelajaran sudah sangat kuat.";
+            document.getElementById('results-message').style.color = '#2e7d32';
+        } else if (score >= 6) {
+            message = "Cukup! Anda memiliki dasar yang baik. Lanjutkan eksplorasi topik AI ini!";
+            document.getElementById('results-message').style.color = '#f9a825';
+        } else {
+            message = "Perlu Belajar Lagi. Jangan khawatir, fokus pada etika, pemanfaatan, dan konsep dasar AI untuk penguatan materi.";
+            document.getElementById('results-message').style.color = '#c62828';
+        }
+        document.getElementById('results-message').textContent = message;
+
+        resultsDiv.style.display = 'block';
+        
+        // Nonaktifkan tombol dan opsi setelah submit
+        submitBtn.disabled = true;
+        document.querySelectorAll('input[type="radio"]').forEach(radio => radio.disabled = true);
+
+        // Scroll ke bagian hasil
+        resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Jalankan render saat halaman dimuat
+    window.onload = renderQuiz;
+</script>
+
+</body>
+</html>
